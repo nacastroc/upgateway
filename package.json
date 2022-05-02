@@ -1,0 +1,25 @@
+{
+  "name": "upgateway",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./src/bin/www",
+    "test": "jest --coverage --detectOpenHandles",
+    "sequelize": "sequelize",
+    "migrate": "npm run sequelize db:migrate",
+    "drop-migrations": "npm run sequelize db:migrate:drop",
+    "seed": "npm run sequelize db:seed:all",
+    "undo-seed": "npm run sequelize db:seed:undo"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "morgan": "~1.9.1",
+    "sequelize": "^6.19.0",
+    "sqlite3": "^5.0.6"
+  },
+  "devDependencies": {
+    "jest": "^28.0.3"
+  }
+}
