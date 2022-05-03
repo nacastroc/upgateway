@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // Seed
+    // Seed.
     await queryInterface.bulkInsert('gateways', [{
       serial: uuidv4(),
       name: 'Master 1',
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    // Revert seed
+    // Revert seed.
     await queryInterface.bulkDelete('gateways', null, {});
   }
 };

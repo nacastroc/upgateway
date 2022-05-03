@@ -24,6 +24,7 @@ function date() {
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // Get existing gateways as they are required to create peripherals.
     let peripherals = []
     const gateways = await db['Gateway'].findAll();
     for (let gateway of gateways) {
@@ -33,18 +34,18 @@ module.exports = {
           gateway: gateway.serial,
           vendor: vendor(),
           date: date(),
-          status: Math.random() < 0.5,
+          status: Math.random() < 0.5, // 50% chance for true or false value.
           createdAt: new Date(),
           updatedAt: new Date(),
         })
       }
     }
-    // Seed
+    // Seed.
     await queryInterface.bulkInsert('peripherals', peripherals, {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    // Revert seed
+    // Revert seed.
     await queryInterface.bulkDelete('peripherals', null, {});
   }
 };
