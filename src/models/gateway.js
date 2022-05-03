@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Gateway.hasMany(models['Peripheral']);
+      Gateway.hasMany(models['Peripheral'], {
+        as: 'Peripherals',
+        foreignKey: 'gateway',
+      });
     }
   };
   Gateway.init({

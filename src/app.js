@@ -15,4 +15,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 
+app.use(function (req, res, next) {
+    res.sendStatus(404);
+})
+
+app.use(function (err, req, res, next) {
+    res.status(500);
+    res.send({ message: err.message, stack: err.stack });
+})
+
 module.exports = app;

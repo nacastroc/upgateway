@@ -11,9 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Peripheral.belongsTo(models.Gateway, {
-				foreignKey: 'gateway',
-				onDelete: 'CASCADE'
-			})      
+        as: 'Gateway',
+        foreignKey: 'gateway',
+        onDelete: 'CASCADE'
+      })
     }
   };
   Peripheral.init({

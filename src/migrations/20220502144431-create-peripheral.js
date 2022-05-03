@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('peripherals', {
-      uid: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
