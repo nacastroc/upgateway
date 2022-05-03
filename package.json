@@ -9,7 +9,7 @@
     "migrate": "npm run sequelize db:migrate",
     "drop-migrations": "npm run sequelize db:migrate:drop",
     "seed": "npm run sequelize db:seed:all",
-    "undo-seed": "npm run sequelize db:seed:undo"
+    "undo-seed": "npm run sequelize db:seed:undo:all"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

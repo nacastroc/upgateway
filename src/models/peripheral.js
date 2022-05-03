@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   Peripheral.init({
     vendor: DataTypes.STRING,
     date: DataTypes.DATEONLY,
-    status: DataTypes.BOOLEAN
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Peripheral',

@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       status: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       gateway: {
         type: Sequelize.UUID,
