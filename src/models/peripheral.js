@@ -10,17 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Peripheral.belongsTo(models.Gateway, {
+				foreignKey: 'gateway',
+				onDelete: 'CASCADE'
+			})      
     }
   };
   Peripheral.init({
     vendor: DataTypes.STRING,
     date: DataTypes.DATEONLY,
-    status: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      allowNull: false
-    }
+    status: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Peripheral',

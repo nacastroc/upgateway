@@ -16,6 +16,8 @@ module.exports = {
       },
       status: {
         type: Sequelize.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
       },
       gateway: {
         type: Sequelize.UUID,

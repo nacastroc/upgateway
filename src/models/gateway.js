@@ -28,8 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isIPv4: true
-      },
-      allowNull: false
+      }
     }
   }, {
     sequelize,
