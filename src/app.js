@@ -3,7 +3,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/index.route');
+var gatewaysRouter = require('./routes/gateways.route');
+var peripheralsRouter = require('./routes/peripherals.route');
 
 var app = express();
 
@@ -14,6 +16,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/gateways', gatewaysRouter);
+app.use('/peripherals', peripheralsRouter);
 
 app.use(function (req, res, next) {
     res.sendStatus(404);
