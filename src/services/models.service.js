@@ -1,6 +1,36 @@
 const db = require('./../models')
 
 /**
+ * Destroys an object
+ * @param {string} model 
+ * @param {string|number} id 
+ * @returns {*}
+ */
+async function destroy(model, id) {
+    const where = model === 'Gateway' ? { serial: id } : { id };
+    const instance = await db[model].findOne({ where });
+    if (instance) {
+        await instance.destroy()
+        return { message: `${model} deleted` }
+    } else {
+        throw new Error(`${model} not found`)
+    }
+}
+
+/**
+ * Finds a model instance by its id.
+ * @param {string} model 
+ * @param {string|number} id 
+ * @returns 
+ */
+async function find(model, id) {
+    return model === 'Peripheral' ? await db[model].findByPk(id) : await db[model].findOne({
+        where: { serial: id },
+        include: [{ association: 'Peripherals', required: false }]
+    });
+}
+
+/**
  * Return paginated data of a model.
  * @param {string} model
  * @param {*} query - query parameters.
@@ -36,52 +66,9 @@ async function save(model, data, id) {
     }
 }
 
-/**
- * Destroys an object
- * @param {string} model 
- * @param {string|number} id 
- * @returns {*}
- */
-async function destroy(model, id) {
-    const where = model === 'Gateway' ? { serial: id } : { id };
-    const instance = await db[model].findOne({ where });
-    if (instance) {
-        instance.destroy()
-        return { message: `${model} deleted` }
-    } else {
-        throw new Error(`${model} not found`)
-    }
-}
-
-/**
- * Checks if the gateway for a peripheral being created is full.
- * @returns - next middleware.
- */
-const check = () => {
-    return async (req, res, next) => {
-        try {
-            const gateway = await db['Gateway'].findOne({
-                where: { serial: req.body.gateway },
-                include: [{ association: 'Peripherals', required: false }]
-            });
-            if (gateway) {
-                if (gateway.Peripherals && gateway.Peripherals.length >= 10) {
-                    next(new Error('Gateway full'));
-                } else {
-                    next();
-                }
-            } else {
-                next(new Error('Gateway not found'));
-            }
-        } catch (error) {
-            next(error)
-        }
-    }
-}
-
 module.exports = {
-    list,
-    save,
     destroy,
-    check
+    find,
+    list,
+    save
 }

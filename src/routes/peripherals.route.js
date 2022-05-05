@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const { body, param } = require('express-validator');
-const db = require('../models');
 const model = 'Peripheral';
 const modelService = require('../services/models.service');
+const middlewareService = require('../services/middleware.service');
 
 router.get('/:id',
     param('id').isNumeric(),
     async function (req, res, next) {
         try {
-            const result = await db[model].findByPk(req.params.id);
+            const result = await modelService.find(model, req.params.id);
             res.json(result);
         } catch (error) {
             next(error);
@@ -22,7 +22,7 @@ router.post('/',
     body('date').isDate(),
     body('status').optional().isBoolean(),
     body('gateway').isUUID(4),
-    modelService.check(),
+    middlewareService.check(),
     async (req, res, next) => {
         try {
             const data = await modelService.save(model, req.body);

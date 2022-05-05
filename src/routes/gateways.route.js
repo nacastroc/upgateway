@@ -9,10 +9,7 @@ router.get('/:serial',
     param('serial').isUUID(4),
     async function (req, res, next) {
         try {
-            const result = await db[model].findOne({
-                where: { serial: req.params.serial },
-                include: [{ association: 'Peripherals', required: false }]
-            });
+            const result = await modelService(model, req.params.serial);
             res.json(result);
         } catch (error) {
             next(error);
