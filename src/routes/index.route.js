@@ -19,6 +19,6 @@ router.get('/:model(gateways|peripherals)',
       next(error);
     }
   }
-)
+);
 
 module.exports = router;
