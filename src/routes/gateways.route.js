@@ -9,7 +9,7 @@ router.get('/:serial',
     param('serial').isUUID(4),
     async function (req, res, next) {
         try {
-            const result = await modelService(model, req.params.serial);
+            const result = await modelService.find(model, req.params.serial);
             res.json(result);
         } catch (error) {
             next(error);
