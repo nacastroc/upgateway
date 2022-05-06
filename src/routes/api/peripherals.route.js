@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 const { body, param } = require('express-validator');
 const model = 'Peripheral';
-const modelService = require('../services/models.service');
-const middlewareService = require('../services/middleware.service');
+const modelService = require('../../services/models.service');
+const middlewareService = require('../../services/middleware.service');
 
 router.get('/:id',
     param('id').isNumeric(),
@@ -26,7 +26,7 @@ router.post('/',
     async (req, res, next) => {
         try {
             const data = await modelService.save(model, req.body);
-            res.json(data);
+            res.status(201).json(data);
         } catch (error) {
             next(error);
         }
@@ -40,7 +40,7 @@ router.put('/:id',
     body('status').optional().isBoolean(),
     async (req, res, next) => {
         try {
-            if (req.body.hasOwnProperty('gateway')) delete req.body.gateway;
+            if (req.body.gateway) delete req.body.gateway;
             const data = await modelService.save(model, req.body, req.params.id);
             res.json(data);
         } catch (error) {
@@ -54,7 +54,7 @@ router.delete('/:id',
     async function (req, res, next) {
         try {
             const result = await modelService.destroy(model, req.params.id);
-            res.json(result)
+            res.status(204).json(result)
         } catch (error) {
             next(error);
         }

@@ -10,10 +10,10 @@ async function destroy(model, id) {
     const where = model === 'Gateway' ? { serial: id } : { id };
     const instance = await db[model].findOne({ where });
     if (instance) {
-        await instance.destroy()
-        return { message: `${model} deleted` }
+        await instance.destroy();
+        return instance;
     } else {
-        throw new Error(`${model} not found`)
+        throw new Error(`${model} not found`);
     }
 }
 
@@ -57,7 +57,7 @@ async function save(model, data, id) {
     if (id) {
         const instance = await db[model].findOne({ where: options });
         if (instance) {
-            return await instance.update(data)
+            return await instance.update(data);
         } else {
             throw new Error(`${model} not found`);
         }

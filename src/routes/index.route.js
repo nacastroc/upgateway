@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'upgateway' });
 });
 
-router.get('/:model(gateways|peripherals)',
+router.get('/api/:model(gateways|peripherals)',
   query('page').optional().isNumeric(),
   query('limit').optional().isNumeric(),
   async function (req, res, next) {
