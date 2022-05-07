@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE'
       })
     }
+
+    static getSearchAttributes() {
+      return ['vendor']
+    }
   };
   Peripheral.init({
     vendor: DataTypes.STRING,

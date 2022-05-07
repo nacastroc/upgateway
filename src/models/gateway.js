@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'gateway',
       });
     }
+
+    static getSearchAttributes() {
+      return ['name', 'address']
+    }
   };
   Gateway.init({
     serial: {

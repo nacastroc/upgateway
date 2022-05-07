@@ -37,12 +37,22 @@ async function find(model, id) {
  * @returns {*}
  */
 async function list(model, query) {
-    const modelName = model === 'gateways' ? 'Gateway' : 'Peripheral';
+    const modelName = getModelName(model);
     const page = +query.page || 1;
     const limit = +query.limit || 10;
     const offset = (page - 1) * limit;
-    const options = { offset, limit };
-    return await db[modelName].findAndCountAll(options);
+    const order = query.order;
+    const where = query.where;
+    const options = { where, offset, limit, order };
+    const result = await db[modelName].findAndCountAll(options);
+    result['page'] = page;
+    result['limit'] = limit;
+    result['pages'] = Math.ceil(result.count / limit);
+    return result;
+}
+
+function getModelName(model) {
+    return model === 'gateways' ? 'Gateway' : 'Peripheral';
 }
 
 /**
@@ -70,5 +80,6 @@ module.exports = {
     destroy,
     find,
     list,
-    save
+    getModelName,
+    save,
 }

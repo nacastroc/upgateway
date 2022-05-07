@@ -6,11 +6,11 @@ describe('Peripherals API', () => {
         const res = await request(app).get('/api/peripherals');
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('count');
-        expect(res.body.count).toBeGreaterThanOrEqual(4);
-        expect(res.body.count).toBeLessThanOrEqual(40);
+        expect(res.body).toHaveProperty('page');
+        expect(res.body).toHaveProperty('pages');
+        expect(res.body).toHaveProperty('limit');
         expect(res.body).toHaveProperty('rows');
         expect(res.body.rows).toHaveProperty('length');
-        expect(res.body.rows.length).toBeLessThanOrEqual(10);
         expect(res.body.rows[0]).toHaveProperty('id');
         expect(res.body.rows[0]).toHaveProperty('vendor');
         expect(res.body.rows[0]).toHaveProperty('date');
@@ -20,16 +20,12 @@ describe('Peripherals API', () => {
         expect(res.body.rows[0]).toHaveProperty('gateway');
     });
 
-    it('list should have only 2 rows on limit=2', async () => {
-        const res = await request(app).get('/api/peripherals?limit=2');
-        expect(res.body.rows.length).toEqual(2);
-    });
-
-    it('list should be on page 2 at ?limit=2&page=2', async () => {
+    it('list should be able to change page and limit', async () => {
         const res = await request(app).get('/api/peripherals?limit=2&page=2');
         expect(res.statusCode).toEqual(200);
         expect(res.body.rows.length).toEqual(2);
-        expect(res.body.rows[0].id).toBeGreaterThan(2);
+        expect(res.body.limit).toEqual(2);
+        expect(res.body.page).toEqual(2);
     });
 
     it('should return a peripheral by its id', async () => {
