@@ -26,7 +26,11 @@ async function destroy(model, id) {
 async function find(model, id) {
     return model === 'Peripheral' ? await db[model].findByPk(id) : await db[model].findOne({
         where: { serial: id },
-        include: [{ association: 'Peripherals', required: false }]
+        include: [{
+            association: 'Peripherals',
+            required: false
+        }],
+        order: [['Peripherals', 'date', 'DESC']]
     });
 }
 
