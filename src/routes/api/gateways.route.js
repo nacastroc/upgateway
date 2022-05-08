@@ -1,18 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const { body, param } = require('express-validator');
-const db = require('../models');
+const db = require('../../models');
 const model = 'Gateway';
-const modelService = require('../services/models.service');
+const modelService = require('../../services/models.service');
 
 router.get('/:serial',
     param('serial').isUUID(4),
     async function (req, res, next) {
         try {
-            const result = await db[model].findOne({
-                where: { serial: req.params.serial },
-                include: [{ association: 'Peripherals', required: false }]
-            });
+            const result = await modelService.find(model, req.params.serial);
             res.json(result);
         } catch (error) {
             next(error);
@@ -26,7 +23,7 @@ router.post('/',
     async (req, res, next) => {
         try {
             const data = await modelService.save(model, req.body);
-            res.json(data);
+            res.status(201).json(data);
         } catch (error) {
             next(error);
         }
@@ -52,7 +49,7 @@ router.delete('/:serial',
     async function (req, res, next) {
         try {
             const result = await modelService.destroy(model, req.params.serial);
-            res.json(result);
+            res.status(204).json(result);
         } catch (error) {
             next(error);
         }

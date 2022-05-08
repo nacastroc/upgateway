@@ -1,96 +1,153 @@
 # upgateway
+
 Managing gateways - master devices that control multiple peripheral devices.
 
-# Usage
+## Usage
 
-* Run `npm install` to installl dependencies
-* Run `npm run start` to start the local server
-* Load `http://localhost:3000` to test the endpoint. It will display a welcome HTML page with available API endpoint list
+* Run `npm install` to installl dependencies.
+* Run `npm run start` to start the local server.
+* Load `http://localhost:3000` to test the endpoint.
 
-# API Endpoints
+## API Endpoints
 
-## GET /api/users
+### GET /api/gateways
 
-Get a list of users
+Get a list of gateways.
 
 ```json
 {
-  "message": "success",
-  "data": [
+  "count": 5,
+  "rows": [
     {
-      "id": 1,
-      "name": "admin",
-      "email": "admin@example.com",
-      "password": "a66abb5684c45962d887564f08346e8d"
+      "serial": "82c9e21f-0ed7-4924-a378-d81881b93a99",
+      "name": "Master 1",
+      "address": "192.168.1.1",
+      "createdAt": "2022-05-06T00:30:53.169Z",
+      "updatedAt": "2022-05-06T00:30:53.169Z"
     },
     {
-      "id": 2,
-      "name": "user",
-      "email": "user@example.com",
-      "password": "4da49c16db42ca04538d629ef0533fe8"
+      "serial": "47c7a56c-34c2-4cc4-8e3f-29010e7eba0d",
+      "name": "Master 2",
+      "address": "192.168.1.2",
+      "createdAt": "2022-05-06T00:30:53.169Z",
+      "updatedAt": "2022-05-06T00:30:53.169Z"
+    },
+  ]
+}
+```
+
+### GET /api/gateways/{serial}
+
+Get gateway information by gateway serial (including peripheral list, if any).
+
+```json
+{
+  "serial":"82c9e21f-0ed7-4924-a378-d81881b93a99",
+  "name":"Master 1",
+  "address":"192.168.1.1",
+  "createdAt":"2022-05-06T00:30:53.169Z",
+  "updatedAt":"2022-05-06T00:30:53.169Z",
+  "Peripherals":[
+    {
+      "id":1,
+      "vendor":"Microsoft",
+      "date":"2015-07-04 03:36:51.916 +00:00",
+      "status":false,
+      "createdAt":"2022-05-06T00:30:53.240Z",
+      "updatedAt":"2022-05-06T00:30:53.240Z",
+      "gateway":"82c9e21f-0ed7-4924-a378-d81881b93a99"
+    },
+    {
+      "id":2,
+      "vendor":"DELL",
+      "date":"2007-10-11 20:18:35.847 +00:00",
+      "status":true,
+      "createdAt":"2022-05-06T00:30:53.240Z",
+      "updatedAt":"2022-05-06T00:30:53.240Z",
+      "gateway":"82c9e21f-0ed7-4924-a378-d81881b93a99"
+    },
+  ]
+}
+```
+
+### POST /api/gateways/
+
+To create a new gateway based on POST data (x-www-form-url-encoded in Postman).
+
+![Postman example](/assets/post-gateway.png)
+
+### PUT /api/gateways/{serial}
+
+To update gateway data by serial, based on PUT data (x-www-form-url-encoded in Postman).
+
+![Postman example](/assets/put-gateway.png)
+
+### DELETE /api/gateways/{serial}
+
+To remove a gateway from the database by gateway serial.
+
+### GET /api/peripherals
+
+Get a list of peripherals.
+
+```json
+{
+  "count":22,
+  "rows":[
+    {
+      "id":1,
+      "vendor":"Microsoft",
+      "date":"2015-07-04 03:36:51.916 +00:00",
+      "status":false,
+      "createdAt":"2022-05-06T00:30:53.240Z",
+      "updatedAt":"2022-05-06T00:30:53.240Z",
+      "gateway":"82c9e21f-0ed7-4924-a378-d81881b93a99"
+    },
+    {
+      "id":2,
+      "vendor":"DELL",
+      "date":"2007-10-11 20:18:35.847 +00:00",
+      "status":true,
+      "createdAt":"2022-05-06T00:30:53.240Z",
+      "updatedAt":"2022-05-06T00:30:53.240Z",
+      "gateway":"82c9e21f-0ed7-4924-a378-d81881b93a99"
     }
   ]
 }
 ```
 
-## GET /api/user/{id}
+### GET /api/peripherals/{id}
 
-Get user information by user id
+Get peripheral information by id.
 
 ```json
 {
-  "message": "success",
-  "data": {
-    "id": 1,
-    "name": "admin",
-    "email": "admin@example.com",
-    "password": "a66abb5684c45962d887564f08346e8d"
-  }
+  "id":1,
+  "vendor":"Microsoft",
+  "date":"2015-07-04 03:36:51.916 +00:00",
+  "status":false,
+  "createdAt":"2022-05-06T00:30:53.240Z",
+  "updatedAt":"2022-05-06T00:30:53.240Z",
+  "gateway":"82c9e21f-0ed7-4924-a378-d81881b93a99"
 }
 ```
 
-## POST /api/user/
+### POST /api/peripherals/
 
-To create a new user based on POST data (x-www-form-url-encoded)
+To create a new peripheral based on POST data (x-www-form-url-encoded in Postman).
 
-* name: User name
-* email: User email
-* password: User password
+![Postman example](/assets/post-peripheral.png)
 
-![Postman example](https://developerhowto.com/wp-content/uploads/2018/12/PostMan-POST-request.png)
+### PUT /api/peripherals/{id}
 
+To update peripheral data by id, based on PUT data (x-www-form-url-encoded in Postman).
 
-## PATCH /api/user/{id}
+![Postman example](/assets/put-peripheral.png)
 
-To update user data by id, based on POST data (x-www-form-url-encoded)
+### DELETE /api/peripherals/{id}
 
-* name: User name
-* email: User email
-* password: User password
+To remove a peripheral from the database by gateway serial.
 
-You can send only one attribute to update, the rest of the info remains the same. 
+## License
 
-In this example, using CURL you can update the user email:
-
-```bash
-curl -X PATCH -d "email=user@example1.com" http://localhost:8000/api/user/2
-```
-
-## DELETE /api/user/{id}
-
-To remove a user from the database by user id. 
-
-This example is using the `curl` command line
-
-
-```bash
-curl -X "DELETE" http://localhost:8000/api/user/2
-```
-
-The result is:
-
-`{"message":"deleted","rows":1}`
-
-
-
-
+Created by Nestor Castro and licensed under the GPLv3 license. Check the LICENSE file for more information.
